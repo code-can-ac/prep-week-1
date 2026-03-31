@@ -16,6 +16,10 @@ struct Edge {
     int u, v, gang;
 };
 
+struct Query {
+    int gang, zi, index;
+};
+
 // citire input
 // citire input partea 1
 void readAndPopulateMatrix(int &noNodes, int &numarGanguri, vector<Edge> &adj) {
@@ -44,20 +48,32 @@ void readAndPopulateDays(int &noDays, vector<Edge> &days) {// Number Of Days si 
 }
 
 // citire input partea 3
-void readQueries(int &noQueries, vector<pair<int, int>> &queries) { // Number of Queries
+void readQueries(int &noQueries, vector<Query> &queries) { // Number of Queries
                                                              // si un vector queries care 
                                                              // contine pe fiecare pozitie o pereche de int
     cin >> noQueries;
 
-    int gang, ziua;
-
     for(int i = 0; i < noQueries; ++i) {
 
-        cin >> gang >> ziua;
-        queries.push_back({gang, ziua});
+        Query queryElement;
+        cin >> queryElement.gang >> queryElement.zi;
+        queryElement.index = i;
+        queries.push_back(queryElement);
 
     }
 }
+//final citire
+
+
+
+// sortare queries
+bool compareQueries(const Query &a, const Query &b) {
+    return a.zi < b.zi;
+}
+void sortareQueries(vector<Query> queries) {
+    sort(queries.begin(), queries.end(), compareQueries);
+}
+
 
 
 // functii utile
@@ -66,7 +82,7 @@ void writeEdges(vector<Edge> &edges) {
         cout << e.u << " " << e.v << " : gang " << e.gang << "\n";
     }
 }
-void writeQueries(vector<pair<int, int>> queries) {
+void writeQueries(vector<Query> queries) {
     for (auto &q : queries)
-        cout << "gang " << q.first << ", ziua " << q.second << "\n";
+        cout << "gang " << q.gang << ", ziua " << q.zi << ", index " << q.index << "\n";
 }
